@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width" initial-scale="1.0"/>
+    <title>FRONTEND BATTLE</title>
+     <link rel="stylesheet" href="vibe.css">
+</head>
+      
+<body class="light">
+   <div class="loader-box">
+  <div class="loader-text">Blending your style with our creativity</div>
+  <div class="loader-bar">
+    <div class="loader-fill"></div>
+  </div>
+</div>
+
+     <nav> <div class="mylogo">
+            UCosmo
+        </div>
+            <a href="#home">Home</a>
+            <a href="#creations">Our Creations</a>
+            <a href="#graph">Our Stats</a>
+        <a href="#reviews">Reviews</a>
+        <button id="modeToggle">Light/Dark</button>
+        </nav>
+        <section id="home" class="hero">
+    <h1>Welcome to UCosmo</h1>
+    <button class="ripple" id="showAdsBtn">Know Me More</button>
+  </section>
+   <section id="creations" class="cards hidden">
+    <div class="card-content"> New But Better!</div>
+    <div class="card-content"> Gone Soon!</div>
+    <div class="card-content"> Half-Off Happiness!</div>
+  </section>
+   <!-- Product Sections (Initially Hidden) -->
+<section id="product-section" class="hidden">
+  <h2>Our Best-Selling Product</h2>
+  <div class="product-box">
+    <img src="lipstick.png" alt="Lipstick Normal" class="product-img">
+  </div>
+</section>
+
+<section id="product-hover" class="hidden">
+  <h2>Product Hover Effect</h2>
+  <div class="product-box">
+    <img src="lipstick.png" alt="Lipstick Normal" class="product-img hover-img">
+  </div>
+</section>
+
+  
+
+  <section id="graph" class="graph hidden">
+  <h2>Select Graph to View</h2>
+  
+  <!-- Dropdown Menu -->
+  <select id="graphSelect">
+    <option value="">-- Select Graph Type --</option>
+    <option value="carbon">Carbon Emission</option>
+    <option value="energy">Portfolio Energy Consumed</option>
+  </select>
+
+  <!-- Graph Display Area -->
+  <div class="graph-container hidden" id="carbonGraph">
+    <div class="graph-item">
+      <img src="stats.png" alt="Carbon Emission Graph" class="graph-img">
+      <p>Carbon Emission Report</p>
+    </div>
+  </div>
+
+  <div class="graph-container hidden" id="energyGraph">
+    <div class="graph-item">
+      <img src="graph.png" alt="Portfolio Energy Graph" class="graph-img">
+      <p>Portfolio Energy Consumption</p>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="carousel">
+  <h2>Our Happy Family</h2>
+  <div class="carousel-container">
+    <div class="carousel-slide">
+      <div class="review-card">"Amazing quality and service!" - Riya</div>
+      <div class="review-card">"The lipstick shade is perfect for me!" - Ananya</div>
+      <div class="review-card">"Will surely buy again!" - Priya</div>
+    </div>
+  </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
+</section>
+
+  <section id="product-demo" class="product-demo">
+  <h2>More Products</h2>
+  <video autoplay muted loop controls class="product-video">
+    <source src="caraousel switch.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+</section>
+
+
+
+  <script>
+  window.addEventListener('load', () => {
+    document.querySelector('.loader-box').style.display = 'none';
+  });
+  const btn = document.getElementById('showAdsBtn');
+    btn.addEventListener('click', () => {
+      document.querySelector('.cards').classList.remove('hidden');
+});
+const graphLink = document.querySelector('nav a[href="#graph"]');
+const graphSection = document.querySelector('#graph');
+const carbonGraph = document.getElementById('carbonGraph');
+const energyGraph = document.getElementById('energyGraph');
+const graphSelect = document.getElementById('graphSelect');
+
+// Show Graph Section on Navbar "Graphs" Click
+graphLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  graphSection.classList.remove('hidden'); // Show dropdown section
+  carbonGraph.classList.add('hidden');     // Hide both graphs initially
+  energyGraph.classList.add('hidden');
+  graphSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll
+});
+
+// Show specific graph based on dropdown selection
+graphSelect.addEventListener('change', () => {
+  const value = graphSelect.value;
+
+  if (value === 'carbon') {
+    carbonGraph.classList.remove('hidden');  // Show carbon graph
+    energyGraph.classList.add('hidden');     // Hide energy graph
+  } else if (value === 'energy') {
+    energyGraph.classList.remove('hidden');  // Show energy graph
+    carbonGraph.classList.add('hidden');     // Hide carbon graph
+  } else {
+    // Hide both if no selection or invalid value
+    carbonGraph.classList.add('hidden');
+    energyGraph.classList.add('hidden');
+  }
+});
+
+const creationsLink = document.querySelector('nav a[href="#creations"]');
+const productSection = document.getElementById('product-section');
+const productHover = document.getElementById('product-hover');
+
+creationsLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  // Show both product sections
+  productSection.classList.remove('hidden');
+  productHover.classList.remove('hidden');
+  
+  // Smooth scroll to the product section
+  productSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+
+const modeToggle = document.getElementById('modeToggle');
+const body = document.body;
+
+modeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark');
+  body.classList.toggle('light');
+});
+
+const slide = document.querySelector('.carousel-slide');
+const reviews = document.querySelectorAll('.review-card');
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+let index = 0;
+
+function showSlide(i) {
+  if(i < 0) index = reviews.length - 1;
+  else if(i >= reviews.length) index = 0;
+  else index = i;
+
+  slide.style.transform = `translateX(${-index * 100}%)`;
+}
+
+prev.addEventListener('click', () => showSlide(index - 1));
+next.addEventListener('click', () => showSlide(index + 1));
+
+// Auto-slide every 4 sec (optional)
+setInterval(() => showSlide(index + 1), 4000);
+
+
+
+
+
+</script>
+
+</body>
+</html>
+
